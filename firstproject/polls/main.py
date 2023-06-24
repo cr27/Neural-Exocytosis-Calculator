@@ -6,13 +6,14 @@ import base64
 import os
 
 def exocytosis(diracDeltat, D, x):
-    𝜎 = math.sqrt(2*(float(D)*float(diracDeltat))) #standard deviation
-    print("Your Standard Deviation is: " + " " + str(𝜎))
+    standard_deviation = math.sqrt(2*(float(D)*float(diracDeltat))) #standard deviation
+    print("Your Standard Deviation is: " + " " + str(standard_deviation))
     u = 0;  # mean
-    apiInput = "compute gaussian distribution" + " " + "mean = " + " " + str(u) + " " + "standard deviation = " + " " + str(𝜎) + " " + "x=" + " " + str(x)
+    apiInput = "compute gaussian distribution" + " " + "mean = " + " " + str(u) + " " + "standard deviation = " \
+               + " " + str(standard_deviation) + " " + "x=" + " " + str(x)
     # App id
-    #app_id =
-    # Instance of wolf ram alpha
+    app_id = 'G92789-EG67WRE55Q'
+    # Instance of wolfram alpha
     # client class
     client = wolframalpha.Client(app_id)
     # Stores the response from
@@ -22,7 +23,8 @@ def exocytosis(diracDeltat, D, x):
     answer = next(res.results).text
     print("Your Gaussian Distribution is:" + " " + answer)
     print("===============================================")
-    print("The probability (Pb) that a transmitter molecule, after hitting the receptor surface, will bind in a given time step (δt) is related to the macroscopic rate constant:")
+    print("The probability (Pb) that a transmitter molecule, after hitting the receptor surface, will "
+          "bind in a given time step (δt) is related to the macroscopic rate constant:")
     print("values are-> ")
     SigmaR = 50
     print("SigmaR/Density of the receptor molecule at the postsynaptic membrane, default: 50 μg ")
@@ -57,29 +59,25 @@ def exocytosis(diracDeltat, D, x):
         plt.title('Vesicular and cleft glutamate concentration')
 
         # function to show the plot
-        #plt.show()
-        filepath = 'polls/static/images/output.png'
-        plt.savefig(filepath)
-        binary_fc = open(filepath, 'rb').read()
-        base64_str = base64.b64encode(binary_fc).decode('utf-8')
-        ext = filepath.split('.')[-1]
-        dataurl = f'data:image/{ext};base64,{base64_str}'
-        os.remove(filepath)
+        plt.show()
 
-        #Glavinović, M. I. (1999). Monte Carlo simulation of vesicular release, spatiotemporal distribution of glutamate in synaptic
-        #cleft and generation of postsynaptic currents.Pflugers Archiv European Journal of Physiology, 437(3), 462–470.
-        #https://doi.org/10.1007/s004240050802
+        #Glavinović, M. I. (1999). Monte Carlo simulation of vesicular release, spatiotemporal distribution of
+        # glutamate in synaptic cleft and generation of postsynaptic currents.Pflugers Archiv European Journal of
+        # Physiology, 437(3), 462–470. https://doi.org/10.1007/s004240050802
 
-        return answer, macroscopicRateConstant, dataurl
+        return answer, macroscopicRateConstant
 
 if __name__ == '__main__':
     print("Compute The distance traveled by a neurotransmitter molecule")
-    print("Enter Gaussian Distribution variables (x/zscore)(𝜎/standard deviation)(mean = 0): ")
+    print("Enter Gaussian Distribution variables (x-zscore)(𝜎-standard deviation)(mean = 0): ")
     print("Compute Standard Deviation first to compute Gaussian Distribution")
     diracDeltat = input(
-        "Enter timestep as an integer that is represented in microseconds, can be random since diffusion travel in this instatiation is random - this is for Standard Deviation")  # time step in microseconds
+        "Enter timestep as an integer that is represented in microseconds, can be random since diffusion travel "
+        "in this instatiation is random - this is for Standard Deviation")  # time step in microseconds
     D = input(
-        "Enter D the diffusion coefficient of Neurotransmitter, take for example: glutamate - this is for Standard Deviation:")  # D is a rand between 760 and 1040
+        "Enter D the diffusion coefficient of Neurotransmitter, take for example: glutamate - this is for "
+        "Standard Deviation:")  # D is a rand between 760 and 1040
     x = input(
-        "Enter zscore =>  how many standard deviations away you are from mean ")  # zscore =>  how many standard deviations away from mean you are
+        "Enter zscore =>  how many standard deviations away you are from mean ")  # zscore =>  how many standard
+    # deviations away from mean you are
     exocytosis(diracDeltat, D, x)
